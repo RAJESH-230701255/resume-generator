@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Generator</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 30px;
+            background: #f5f5f5;
+        }
+
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 350px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 10px;
+            background: #0078d4;
+            color: white;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        #output {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h2>Create Your Resume</h2>
+
+        <input id="name" placeholder="Your Name">
+        <textarea id="about" placeholder="About you"></textarea>
+        <input id="skills" placeholder="Skills (comma separated)">
+
+        <button onclick="generateResume()">Generate Resume</button>
+
+        <p id="output"></p>
+    </div>
+
+    <script>
+        async function generateResume() {
+            const name = document.getElementById("name").value;
+            const about = document.getElementById("about").value;
+            const skills = document.getElementById("skills").value;
+
+            try {
+                const response = await fetch("/api/generateResume", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ name, about, skills })
+                });
+
+                const data = await response.json();
+
+                document.getElementById("output").innerText = data.message;
+
+            } catch (error) {
+                console.error(error);
+                document.getElementById("output").innerText = "Error generating resume";
+            }
+        }
+    </script>
+
+</body>
+</html>
