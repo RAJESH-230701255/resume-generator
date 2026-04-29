@@ -4,7 +4,7 @@ module.exports = async function (context, req) {
     context.res = {
         status: 200,
         body: {
-            message: "Resume generated for " + (name || "user")
+            message: "Resume generated for " + name
         }
     };
 };
